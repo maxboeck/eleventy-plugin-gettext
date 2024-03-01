@@ -6,6 +6,7 @@ const GettextParser = require('gettext-parser')
 
 class Translater {
     defaultConfiguration = {
+        defaultLocale: 'en',
         localeDirectory: 'locale',
         parserMode: 'po',
         sourceMessagesFile: 'messages.js',
@@ -39,10 +40,14 @@ class Translater {
     }
 
     setLocale(locale) {
-        const parsedLocale = this.parseLocale(locale)
+        try {
+            const parsedLocale = this.parseLocale(locale)
 
-        if (this.gettext) {
-            this.gettext.setLocale(parsedLocale.locale)
+            if (this.gettext) {
+                this.gettext.setLocale(parsedLocale.locale)
+            }
+        } catch (err) {
+            console.error(`Unable to parse locale "${locale}"`)
         }
     }
 

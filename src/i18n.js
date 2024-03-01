@@ -19,21 +19,18 @@ class i18n {
             this.translater.reloadTranslations()
         )
 
-        const shortcodeFns = this.getShortcodeFns()
-        Object.keys(shortcodeFns).forEach((shortcodeName) => {
-            eleventyConfig.addShortcode(
-                shortcodeName,
-                shortcodeFns[shortcodeName]
-            )
+        const templateFns = this.getTemplateFunctions(options.defaultLocale)
+        Object.keys(templateFns).forEach((fnName) => {
+            eleventyConfig.addGlobalData(fnName, templateFns[fnName])
         })
     }
 
-    getShortcodeFns(contextLocale) {
+    getTemplateFunctions(contextLocale) {
         let fns = {
-            gettextFn: this._,
-            ngettextFn: this._n,
-            igettextFn: this._i,
-            nigettextFn: this._ni
+            gettextFn: this._.bind(this),
+            ngettextFn: this._n.bind(this),
+            igettextFn: this._i.bind(this),
+            nigettextFn: this._ni.bind(this)
         }
 
         if (contextLocale) {
@@ -82,15 +79,12 @@ class i18n {
         }
 
         const parsedLocale = this.translater.parseLocale(locale)
-        const shortcodeFns = this.getShortcodeFns(locale)
+        const templateFns = this.getTemplateFunctions(locale)
 
         obj.lang = parsedLocale.lang
         obj.langDir = dir
         obj.locale = locale
-
-        Object.keys(shortcodeFns).forEach((shortcodeName) => {
-            obj[shortcodeName] = shortcodeFns[shortcodeName]
-        })
+        obj = Object.assign(obj, templateFns)
 
         return obj
     }
