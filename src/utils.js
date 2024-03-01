@@ -1,3 +1,7 @@
+function log(msg, ...args) {
+    console.log(`[eleventy-plugin-gettext] ${msg}`, ...args)
+}
+
 function isObject(item) {
     return item && typeof item === 'object' && !Array.isArray(item)
 }
@@ -25,6 +29,7 @@ function mergeDeep(target, source) {
 }
 
 module.exports = {
+    log,
     isObject,
     mergeDeep
 }

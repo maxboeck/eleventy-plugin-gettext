@@ -45,7 +45,7 @@ class Extracter {
             }
         }
         const outputFileContent = gt.po.compile(data)
-        console.log(
+        utils.log(
             `Writing new translation source file in ${this.configuration.localeDirectory}/${this.configuration.outputFile}`
         )
         fs.writeFileSync(outputFilePath, outputFileContent)
@@ -116,7 +116,7 @@ class Extracter {
                 const pluralMatches = fileContent.match(plural)
 
                 if (singularMatches || pluralMatches) {
-                    console.log(`Localization tokens found in ${filePath}.`)
+                    utils.log(`Localization tokens found in ${filePath}.`)
                 }
 
                 const matchesAtFilePath = []

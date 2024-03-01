@@ -1,6 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-
+const utils = require('utils')
 const Gettext = require('node-gettext')
 const GettextParser = require('gettext-parser')
 
@@ -98,7 +98,7 @@ class Translater {
                         locale.name,
                         localeFileName
                     )
-                    console.log(`Loading ${filePath}.`)
+                    utils.log(`Loading ${filePath}.`)
 
                     const content = fs.readFileSync(filePath)
                     const parsedTranslations = gettextParser.parse(content)
