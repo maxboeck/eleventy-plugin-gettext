@@ -1,8 +1,8 @@
 const fs = require('fs')
 const path = require('path')
-const utils = require('utils')
 const Gettext = require('node-gettext')
 const GettextParser = require('gettext-parser')
+const utils = require('./utils')
 
 class Translater {
     defaultConfiguration = {
