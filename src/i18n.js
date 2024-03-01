@@ -7,7 +7,6 @@ const Formatter = require('./Formatter')
 class i18n {
     formatter = new Formatter()
     translater = new Translater()
-
     pathPrefix = undefined
 
     configFunction(eleventyConfig, options = {}) {
@@ -20,27 +19,54 @@ class i18n {
             this.translater.reloadTranslations()
         )
 
-        const gettextFn = (locale, key, ...args) => {
-            return this._(locale, key, ...args)
-        }
-        const ngettextFn = (locale, singular, plural, count, ...args) => {
-            return this._n(locale, singular, plural, count, ...args)
-        }
-        const igettextFn = (locale, key, obj) => {
-            return this._i(locale, key, obj)
-        }
-        const nigettextFn = (locale, singular, plural, count, obj) => {
-            return this._ni(locale, singular, plural, count, obj)
+        const shortcodeFns = this.getShortcodeFns()
+        Object.keys(shortcodeFns).forEach((shortcodeName) => {
+            eleventyConfig.addShortcode(
+                shortcodeName,
+                shortcodeFns[shortcodeName]
+            )
+        })
+    }
+
+    getShortcodeFns(contextLocale) {
+        let fns = {
+            gettextFn: this._,
+            ngettextFn: this._n,
+            igettextFn: this._i,
+            nigettextFn: this._ni
         }
 
-        eleventyConfig.addShortcode('_', gettextFn)
-        eleventyConfig.addShortcode('gettext', gettextFn)
+        if (contextLocale) {
+            fns = {
+                gettextFn: (key, ...args) => {
+                    return this._(contextLocale, key, ...args)
+                },
+                ngettextFn: (singular, plural, count, ...args) => {
+                    return this._n(
+                        contextLocale,
+                        singular,
+                        plural,
+                        count,
+                        ...args
+                    )
+                },
+                igettextFn: (key, obj) => {
+                    return this._i(contextLocale, key, obj)
+                },
+                nigettextFn: (singular, plural, count, obj) => {
+                    return this._ni(contextLocale, singular, plural, count, obj)
+                }
+            }
+        }
 
-        eleventyConfig.addShortcode('_n', ngettextFn)
-        eleventyConfig.addShortcode('ngettext', ngettextFn)
-
-        eleventyConfig.addShortcode('_i', igettextFn)
-        eleventyConfig.addShortcode('_ni', nigettextFn)
+        return {
+            _: fns.gettextFn,
+            _n: fns.ngettextFn,
+            _i: fns.igettextFn,
+            _ni: fns.nigettextFn,
+            gettext: fns.gettextFn,
+            ngettext: fns.ngettextFn
+        }
     }
 
     enhance11tydata(obj, locale, dir = 'ltr') {
@@ -56,29 +82,15 @@ class i18n {
         }
 
         const parsedLocale = this.translater.parseLocale(locale)
+        const shortcodeFns = this.getShortcodeFns(locale)
 
         obj.lang = parsedLocale.lang
         obj.langDir = dir
         obj.locale = locale
 
-        obj._ = (key, ...args) => {
-            return this._(locale, key, ...args)
-        }
-        obj.gettext = (key, ...args) => {
-            return this._(locale, key, ...args)
-        }
-        obj._n = (singular, plural, count, ...args) => {
-            return this._n(locale, singular, plural, count, ...args)
-        }
-        obj.ngettext = (singular, plural, count, ...args) => {
-            return this._n(locale, singular, plural, count, ...args)
-        }
-        obj._i = (key, obj) => {
-            return this._i(locale, key, obj)
-        }
-        obj._ni = (singular, plural, count, obj) => {
-            return this._ni(locale, singular, plural, count, obj)
-        }
+        Object.keys(shortcodeFns).forEach((shortcodeName) => {
+            obj[shortcodeName] = shortcodeFns[shortcodeName]
+        })
 
         return obj
     }
