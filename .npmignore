@@ -1,9 +1,0 @@
-docs/
-tests/
-.vscode/
-.github/
-coverage/
-*.tgz
-tsconfig.json
-src
-lib

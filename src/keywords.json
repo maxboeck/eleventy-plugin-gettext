@@ -1,0 +1,39 @@
+{
+    "_": {
+        "msgid": 0
+    },
+    "gettext": {
+        "msgid": 0
+    },
+    "dgettext": {
+        "msgid": 1
+    },
+    "dcgettext": {
+        "msgid": 1
+    },
+    "_n": {
+        "msgid": 0,
+        "msgid_plural": 1
+    },
+    "ngettext": {
+        "msgid": 0,
+        "msgid_plural": 1
+    },
+    "dngettext": {
+        "msgid": 1,
+        "msgid_plural": 2
+    },
+    "pgettext": {
+        "msgctxt": 0,
+        "msgid": 1
+    },
+    "npgettext": {
+        "msgctxt": 0,
+        "msgid": 1,
+        "msgid_plural": 2
+    },
+    "dpgettext": {
+        "msgctxt": 1,
+        "msgid": 2
+    }
+}

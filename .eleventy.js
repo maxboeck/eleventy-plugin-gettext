@@ -1,5 +1,2 @@
-'use strict'
-
-const i18n = require('./dist/i18n')
-
+const i18n = require('./src/i18n')
 module.exports = i18n
