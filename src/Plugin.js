@@ -4,7 +4,7 @@ const path = require('path')
 const Translater = require('./Translater')
 const Formatter = require('./Formatter')
 
-class i18n {
+class Plugin {
     formatter = new Formatter()
     translater = new Translater()
     pathPrefix = undefined
@@ -122,4 +122,4 @@ class i18n {
     }
 }
 
-module.exports = new i18n()
+module.exports = new Plugin()

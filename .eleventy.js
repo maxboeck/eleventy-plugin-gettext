@@ -1,2 +1,2 @@
-const i18n = require('./src/i18n')
-module.exports = i18n
+const plugin = require('./src/Plugin')
+module.exports = plugin
