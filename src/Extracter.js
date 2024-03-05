@@ -11,23 +11,25 @@ class Extracter {
     constructor(opts) {
         this.configuration = Object.assign(
             {
-                localeDirectory: 'locale',
+                outputDirectory: 'locale',
                 outputFile: 'messages.po',
-                sourceFilePatterns: ['src/**/*.njk', 'src/**/*.js'],
-                keywordSpec: keywordSpec
+                sourceFilePatterns: ['src/**/*.njk', 'src/**/*.js']
             },
             opts
         )
-
-        this.parser = new nunjucksParser(this.configuration.keywordSpec)
+        this.parser = new nunjucksParser(keywordSpec)
     }
 
     generateOutputFile(translations) {
-        const outputFilePath = path.join(
+        const outDirPath = path.join(
             process.cwd(),
-            this.configuration.localeDirectory,
-            this.configuration.outputFile
+            this.configuration.outputDirectory
         )
+        const outFilePath = path.join(outDirPath, this.configuration.outputFile)
+        if (!fs.existsSync(outDirPath)) {
+            fs.mkdirSync(outDirPath)
+        }
+
         const revisionDate = new Date().toISOString()
         const headers = {
             Language: 'de_DE',
@@ -44,11 +46,11 @@ class Extracter {
                 '': translations
             }
         }
-        const outputFileContent = gt.po.compile(data)
+        const outFileContent = gt.po.compile(data)
         utils.log(
-            `Writing new translation source file in ${this.configuration.localeDirectory}/${this.configuration.outputFile}`
+            `Writing new translation source file in ${this.configuration.outputDirectory}/${this.configuration.outputFile}`
         )
-        fs.writeFileSync(outputFilePath, outputFileContent)
+        fs.writeFileSync(outFilePath, outFileContent)
     }
 
     parseTemplate(templateString, templatePath) {
