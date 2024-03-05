@@ -1,5 +1,5 @@
 {
-    "name": "eleventy-plugin-gettext",
+    "name": "@maxboeck/eleventy-plugin-gettext",
     "version": "0.1.0",
     "description": "Eleventy plugin for gettext message translation and static extraction",
     "main": ".eleventy.js",
@@ -7,10 +7,10 @@
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "https://github.com/maxboeck/eleventy-plugin-gettext.git"
+        "url": "git+https://github.com/maxboeck/eleventy-plugin-gettext.git"
     },
     "bin": {
-        "eleventy-plugin-gettext": "./cmd.js"
+        "eleventy-plugin-gettext": "cmd.js"
     },
     "dependencies": {
         "@11ty/eleventy": "^2.0.1",
@@ -19,5 +19,13 @@
         "minimist": "^1.2.8",
         "node-gettext": "^3.0.0",
         "printf": "^0.6.1"
+    },
+    "devDependencies": {},
+    "bugs": {
+        "url": "https://github.com/maxboeck/eleventy-plugin-gettext/issues"
+    },
+    "homepage": "https://github.com/maxboeck/eleventy-plugin-gettext#readme",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
     }
 }
