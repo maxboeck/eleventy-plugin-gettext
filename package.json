@@ -1,6 +1,6 @@
 {
     "name": "@maxboeck/eleventy-plugin-gettext",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Eleventy plugin for gettext message translation and static extraction",
     "main": ".eleventy.js",
     "author": "Max Böck",
